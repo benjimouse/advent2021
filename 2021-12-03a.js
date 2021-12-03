@@ -9,19 +9,21 @@ function ben(inputFile) {
     const diagnostic = getArray(inputFile);
     let gamma1, gamma2, gamma3, gamma4, gamma5, epsilon1, epsilon2, epsilon3, epsilon4, epsilon5;
     let pos = [];
+    pos[0] = 0;
     pos[1] = 0;
     pos[2] = 0;
     pos[3] = 0;
     pos[4] = 0;
-    pos[5] = 0;
     const arrSize = diagnostic.length;
 
     for (let i = 0; i < arrSize; i++) {
-        pos[1] = pos[1] + parseInt(diagnostic[i].charAt(0));
-        pos[2] = pos[2] + parseInt(diagnostic[i].charAt(1));
-        pos[3] = pos[3] + parseInt(diagnostic[i].charAt(2));
-        pos[4] = pos[4] + parseInt(diagnostic[i].charAt(3));
-        pos[5] = pos[5] + parseInt(diagnostic[i].charAt(4));
+        line = diagnostic[i].split('');
+
+        for(let j=0;j<line.length;j++){
+            pos[j] = pos[j] + parseInt(line[j]);
+        }
+        
+        
     }
     const gamma = posToBin(pos, arrSize, 'g');
     const epsilon = posToBin(pos, arrSize, 'e');
@@ -29,23 +31,19 @@ function ben(inputFile) {
 }
 
 function posToBin(pos, arrSize, gOrE) {
-    if (gOrE === 'g') {
-        gamma1 = pos[1] > (arrSize / 2) ? "1" : "0";
-        gamma2 = pos[2] > (arrSize / 2) ? '1' : '0';
-        gamma3 = pos[3] > (arrSize / 2) ? '1' : '0';
-        gamma4 = pos[4] > (arrSize / 2) ? '1' : '0';
-        gamma5 = pos[5] > (arrSize / 2) ? '1' : '0';
-    } else {
-        gamma1 = pos[1] > (arrSize / 2) ? "0" : "1";
-        gamma2 = pos[2] > (arrSize / 2) ? '0' : '1';
-        gamma3 = pos[3] > (arrSize / 2) ? '0' : '1';
-        gamma4 = pos[4] > (arrSize / 2) ? '0' : '1';
-        gamma5 = pos[5] > (arrSize / 2) ? '0' : '1';
-
+    let bin = [];
+    for(let i=0;i<pos.length;i++){
+        if (gOrE === 'g') {
+            bin[i] = pos[i] > (arrSize / 2) ? '1' : '0';
+        } else {
+            bin[i] = pos[i] > (arrSize / 2) ? '0' : '1';
+        }
     }
-    const gamma = parseInt(gamma1 + gamma2 + gamma3 + gamma4 + gamma5, 2);
+    binaryNum = bin.join('');
+
+    const gamma = parseInt(binaryNum, 2);
 
     return gamma;
 }
 
-console.log(ben("./2021-12-03-test.in")===198?"Success":"Failure");
+console.log(ben("./2021-12-03-test.in")===198?"Success":"Failure "+ben("./2021-12-03-test.in"));
